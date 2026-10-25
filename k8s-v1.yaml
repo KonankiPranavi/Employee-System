@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employee-v1
+  template:
+    metadata:
+      labels:
+        app: employee-v1
+    spec:
+      containers:
+      - name: employee-system-v1
+        image: konankipranavi/employee-system:v1
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: employee-v1-service
+spec:
+  type: NodePort
+  selector:
+    app: employee-v1
+  ports:
+    - port: 5001
+      targetPort: 5001
+      nodePort: 30001
